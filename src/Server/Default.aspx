@@ -12,7 +12,7 @@
     <div>
         <h2>You are running NuGet.Server v<%= typeof(NuGet.Server.DataServices.Package).Assembly.GetName().Version %></h2>
         <p>
-            Click <a href="<%= VirtualPathUtility.ToAbsolute("~/nuget/Packages") %>">here</a> to view your packages.
+            Click <a href="nuget/Packages">here</a> to view your packages.
         </p>
         <fieldset style="width:800px">
             <legend><strong>Repository URLs</strong></legend>

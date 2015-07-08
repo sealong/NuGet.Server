@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Web;
+using System.Web.Configuration;
 
 public static class Helpers
 {
@@ -12,8 +14,24 @@ public static class Helpers
         return GetBaseUrl(currentUrl, applicationPath);
     }
 
+    public static string GetRootUrl()
+    {
+        var rootUrlConfig = WebConfigurationManager.AppSettings["rootUrl"];
+        var rootUrl = !string.IsNullOrWhiteSpace(rootUrlConfig)
+                        ? rootUrlConfig
+                        : HttpContext.Current.Request.Url.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped);
+        return rootUrl;
+    }
+
     public static string GetBaseUrl(Uri currentUrl, string applicationPath)
     {
+        var baseUrl = GetRootUrl();
+        if (!String.IsNullOrEmpty(baseUrl))
+        {
+            baseUrl += applicationPath;
+            return EnsureTrailingSlash(baseUrl);
+        }
+
         var uriBuilder = new UriBuilder(currentUrl);
 
         string repositoryUrl = uriBuilder.Scheme + "://" + uriBuilder.Host;
